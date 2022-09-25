@@ -1,0 +1,10 @@
+Namespace(no_progress_bar=False, log_interval=100, log_format=None, tensorboard_logdir='', seed=1, cpu=False, fp16=False, memory_efficient_fp16=False, fp16_no_flatten_grads=False, fp16_init_scale=128, fp16_scale_window=None, fp16_scale_tolerance=0.0, min_loss_scale=0.0001, threshold_loss_scale=None, user_dir=None, empty_cache_freq=0, all_gather_list_size=16384, model_parallel_size=1, checkpoint_suffix='', criterion='cross_entropy', tokenizer=None, bpe=None, optimizer='nag', lr_scheduler='fixed', task='translation', source_lang='en', target_lang='de', trainpref='../exp_data_wmt/newstest2013.bpe', validpref='../exp_data_wmt/newstest2013.bpe', testpref=None, align_suffix=None, destdir='../exp_data_wmt', thresholdtgt=0, thresholdsrc=0, tgtdict=None, srcdict=None, nwordstgt=-1, nwordssrc=-1, alignfile=None, dataset_impl='mmap', joined_dictionary=False, only_source=False, padding_factor=8, workers=4)
+[en] Dictionary: 8847 types
+[en] ../exp_data_wmt/newstest2013.bpe.en: 6000 sents, 79634 tokens, 0.0% replaced by <unk>
+[en] Dictionary: 8847 types
+[en] ../exp_data_wmt/newstest2013.bpe.en: 6000 sents, 79634 tokens, 0.0% replaced by <unk>
+[de] Dictionary: 11271 types
+[de] ../exp_data_wmt/newstest2013.bpe.de: 3000 sents, 84602 tokens, 0.0% replaced by <unk>
+[de] Dictionary: 11271 types
+[de] ../exp_data_wmt/newstest2013.bpe.de: 3000 sents, 84602 tokens, 0.0% replaced by <unk>
+Wrote preprocessed data to ../exp_data_wmt

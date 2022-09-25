@@ -1,0 +1,29 @@
+################ Done decoding ################
+results//translations/mt_en/mt_en.bpe.hyp.detokenized
+results//translations/mt_en/mt_en.bpe.ref.detokenized
+[
+{
+ "name": "BLEU",
+ "score": 61.1,
+ "signature": "nrefs:1|case:mixed|eff:no|tok:13a|smooth:exp|version:2.2.1",
+ "verbose_score": "84.1/71.6/63.5/57.5 (BP = 0.893 ratio = 0.898 hyp_len = 30484606 ref_len = 33946788)",
+ "nrefs": "1",
+ "case": "mixed",
+ "eff": "no",
+ "tok": "13a",
+ "smooth": "exp",
+ "version": "2.2.1"
+},
+{
+ "name": "chrF2",
+ "score": 76.1,
+ "signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.2.1",
+ "nrefs": "1",
+ "case": "mixed",
+ "eff": "yes",
+ "nc": "6",
+ "nw": "0",
+ "space": "no",
+ "version": "2.2.1"
+}
+]

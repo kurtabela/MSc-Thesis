@@ -1,0 +1,100 @@
+2022-09-24T12:28:34,121 Using pip 21.3.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+2022-09-24T12:28:34,145 Non-user install because site-packages writeable
+2022-09-24T12:28:34,156 Created temporary directory: /tmp/pip-ephem-wheel-cache-b8nvpvt5
+2022-09-24T12:28:34,158 Created temporary directory: /tmp/pip-req-tracker-kcjdn_v9
+2022-09-24T12:28:34,159 Initialized build tracking at /tmp/pip-req-tracker-kcjdn_v9
+2022-09-24T12:28:34,159 Created build tracker: /tmp/pip-req-tracker-kcjdn_v9
+2022-09-24T12:28:34,160 Entered build tracker: /tmp/pip-req-tracker-kcjdn_v9
+2022-09-24T12:28:34,160 Created temporary directory: /tmp/pip-install-_edbvf_e
+2022-09-24T12:28:34,168 Obtaining file:///netscratch/abela/robustness/secoco/fairseq/fairseq
+2022-09-24T12:28:34,169   Added file:///netscratch/abela/robustness/secoco/fairseq/fairseq to build tracker '/tmp/pip-req-tracker-kcjdn_v9'
+2022-09-24T12:28:34,170 ERROR: file:///netscratch/abela/robustness/secoco/fairseq/fairseq does not appear to be a Python project: neither 'setup.py' nor 'pyproject.toml' found.
+2022-09-24T12:28:34,171 Exception information:
+2022-09-24T12:28:34,171 Traceback (most recent call last):
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/cli/base_command.py", line 164, in exc_logging_wrapper
+2022-09-24T12:28:34,171     status = run_func(*args)
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/cli/req_command.py", line 205, in wrapper
+2022-09-24T12:28:34,171     return func(self, options, args)
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/commands/install.py", line 338, in run
+2022-09-24T12:28:34,171     requirement_set = resolver.resolve(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/resolver.py", line 73, in resolve
+2022-09-24T12:28:34,171     collected = self.factory.collect_root_requirements(root_reqs)
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/factory.py", line 468, in collect_root_requirements
+2022-09-24T12:28:34,171     req = self._make_requirement_from_install_req(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/factory.py", line 430, in _make_requirement_from_install_req
+2022-09-24T12:28:34,171     cand = self._make_candidate_from_link(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/factory.py", line 186, in _make_candidate_from_link
+2022-09-24T12:28:34,171     self._editable_candidate_cache[link] = EditableCandidate(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 306, in __init__
+2022-09-24T12:28:34,171     super().__init__(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 156, in __init__
+2022-09-24T12:28:34,171     self.dist = self._prepare()
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 225, in _prepare
+2022-09-24T12:28:34,171     dist = self._prepare_distribution()
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 316, in _prepare_distribution
+2022-09-24T12:28:34,171     return self._factory.preparer.prepare_editable_requirement(self._ireq)
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/operations/prepare.py", line 599, in prepare_editable_requirement
+2022-09-24T12:28:34,171     dist = _get_prepared_distribution(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/operations/prepare.py", line 58, in _get_prepared_distribution
+2022-09-24T12:28:34,171     abstract_dist.prepare_distribution_metadata(finder, build_isolation)
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/distributions/sdist.py", line 30, in prepare_distribution_metadata
+2022-09-24T12:28:34,171     self.req.load_pyproject_toml()
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/req/req_install.py", line 497, in load_pyproject_toml
+2022-09-24T12:28:34,171     pyproject_toml_data = load_pyproject_toml(
+2022-09-24T12:28:34,171   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/pyproject.py", line 52, in load_pyproject_toml
+2022-09-24T12:28:34,171     raise InstallationError(
+2022-09-24T12:28:34,171 pip._internal.exceptions.InstallationError: file:///netscratch/abela/robustness/secoco/fairseq/fairseq does not appear to be a Python project: neither 'setup.py' nor 'pyproject.toml' found.
+2022-09-24T12:28:34,176 WARNING: You are using pip version 21.3.1; however, version 22.2.2 is available.
+2022-09-24T12:28:34,176 You should consider upgrading via the '/usr/bin/python -m pip install --upgrade pip' command.
+2022-09-24T12:28:34,176 Removed file:///netscratch/abela/robustness/secoco/fairseq/fairseq from build tracker '/tmp/pip-req-tracker-kcjdn_v9'
+2022-09-24T12:28:34,178 Removed build tracker: '/tmp/pip-req-tracker-kcjdn_v9'
+2022-09-24T12:34:57,068 Using pip 21.3.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+2022-09-24T12:34:57,336 Non-user install because site-packages writeable
+2022-09-24T12:34:57,368 Created temporary directory: /tmp/pip-ephem-wheel-cache-8px_2pkx
+2022-09-24T12:34:57,370 Created temporary directory: /tmp/pip-req-tracker-etshrgge
+2022-09-24T12:34:57,371 Initialized build tracking at /tmp/pip-req-tracker-etshrgge
+2022-09-24T12:34:57,372 Created build tracker: /tmp/pip-req-tracker-etshrgge
+2022-09-24T12:34:57,372 Entered build tracker: /tmp/pip-req-tracker-etshrgge
+2022-09-24T12:34:57,373 Created temporary directory: /tmp/pip-install-yzdhxpku
+2022-09-24T12:34:57,381 Obtaining file:///netscratch/abela/robustness/secoco/fairseq/fairseq
+2022-09-24T12:34:57,382   Added file:///netscratch/abela/robustness/secoco/fairseq/fairseq to build tracker '/tmp/pip-req-tracker-etshrgge'
+2022-09-24T12:34:57,383 ERROR: file:///netscratch/abela/robustness/secoco/fairseq/fairseq does not appear to be a Python project: neither 'setup.py' nor 'pyproject.toml' found.
+2022-09-24T12:34:57,384 Exception information:
+2022-09-24T12:34:57,384 Traceback (most recent call last):
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/cli/base_command.py", line 164, in exc_logging_wrapper
+2022-09-24T12:34:57,384     status = run_func(*args)
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/cli/req_command.py", line 205, in wrapper
+2022-09-24T12:34:57,384     return func(self, options, args)
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/commands/install.py", line 338, in run
+2022-09-24T12:34:57,384     requirement_set = resolver.resolve(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/resolver.py", line 73, in resolve
+2022-09-24T12:34:57,384     collected = self.factory.collect_root_requirements(root_reqs)
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/factory.py", line 468, in collect_root_requirements
+2022-09-24T12:34:57,384     req = self._make_requirement_from_install_req(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/factory.py", line 430, in _make_requirement_from_install_req
+2022-09-24T12:34:57,384     cand = self._make_candidate_from_link(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/factory.py", line 186, in _make_candidate_from_link
+2022-09-24T12:34:57,384     self._editable_candidate_cache[link] = EditableCandidate(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 306, in __init__
+2022-09-24T12:34:57,384     super().__init__(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 156, in __init__
+2022-09-24T12:34:57,384     self.dist = self._prepare()
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 225, in _prepare
+2022-09-24T12:34:57,384     dist = self._prepare_distribution()
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/resolution/resolvelib/candidates.py", line 316, in _prepare_distribution
+2022-09-24T12:34:57,384     return self._factory.preparer.prepare_editable_requirement(self._ireq)
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/operations/prepare.py", line 599, in prepare_editable_requirement
+2022-09-24T12:34:57,384     dist = _get_prepared_distribution(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/operations/prepare.py", line 58, in _get_prepared_distribution
+2022-09-24T12:34:57,384     abstract_dist.prepare_distribution_metadata(finder, build_isolation)
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/distributions/sdist.py", line 30, in prepare_distribution_metadata
+2022-09-24T12:34:57,384     self.req.load_pyproject_toml()
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/req/req_install.py", line 497, in load_pyproject_toml
+2022-09-24T12:34:57,384     pyproject_toml_data = load_pyproject_toml(
+2022-09-24T12:34:57,384   File "/usr/local/lib/python3.8/dist-packages/pip/_internal/pyproject.py", line 52, in load_pyproject_toml
+2022-09-24T12:34:57,384     raise InstallationError(
+2022-09-24T12:34:57,384 pip._internal.exceptions.InstallationError: file:///netscratch/abela/robustness/secoco/fairseq/fairseq does not appear to be a Python project: neither 'setup.py' nor 'pyproject.toml' found.
+2022-09-24T12:34:57,389 WARNING: You are using pip version 21.3.1; however, version 22.2.2 is available.
+2022-09-24T12:34:57,389 You should consider upgrading via the '/usr/bin/python -m pip install --upgrade pip' command.
+2022-09-24T12:34:57,389 Removed file:///netscratch/abela/robustness/secoco/fairseq/fairseq from build tracker '/tmp/pip-req-tracker-etshrgge'
+2022-09-24T12:34:57,390 Removed build tracker: '/tmp/pip-req-tracker-etshrgge'
