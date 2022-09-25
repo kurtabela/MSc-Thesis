@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a934a46b-3246-4c99-83ac-719219d2cc59" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Model 1/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Model 1/.idea/Model 1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Model 1/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Model 1/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Model 1/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Model 1/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/en_ic_results.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/en_ic_trained.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/en_mt_results.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/evaluate-OLD.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 1/evaluate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/ic_en_results.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/monolingual_ic_backtranslation.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/monolingual_mt_backtranslation.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/mt_en_results.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 1/run_baseline_system.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 1/run_baseline_system.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/batch_without_gpu.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/batch_without_gpu_ic.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/test_set_orig.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/train.en" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/transformer-ic.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 3/transformer-ic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/transformer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 3/transformer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/workeren.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 3/workeric.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 4/en_ic_trained.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 4/preprocess_double_sentences.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Model 4/preprocessing_mt_en.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/baseline_en_mt.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch_without_gpu.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch_without_gpu2.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch_without_gpu_ic.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch_without_ic_gpu2.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_updated_data-OLD.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_updated_data_step3.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_updated_data_step3_ic.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/en_mt_baseline.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/en_mt_trained_part1.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/extract_embeddings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ic_en_baseline.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/listOfMultiSenseWords.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/listOfMultiSenseWords_en.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/listOfMultiSenseWords_en_ic.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/listOfMultiSenseWords_ic.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/listOfMultiSenseWords_mt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 1/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mt_en_baseline_train.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mt_en_trained_part1.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_data.en" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 2/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_data.ic" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 3/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/new_data.mt" beforeDir="false" afterPath="$PROJECT_DIR$/../Model 4/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tempResultsFromFastAlign0.align" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tempWritingSentForFastAlign0.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_set_OLD.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/workeren.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/workeric.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FGubNynxlFCmnktsK3ZQ65En5M" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/University/ToUploadPublically/MSc-Thesis",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a934a46b-3246-4c99-83ac-719219d2cc59" name="Changes" comment="" />
+      <created>1664130813265</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1664130813265</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

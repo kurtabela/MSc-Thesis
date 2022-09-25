@@ -43,13 +43,8 @@ import tempfile
 os.chdir("test_dataset")
 #os.system("tfds build")
 
-
-
-
-
 # %%
 from tensor2tensor.layers import common_layers
-
 
 # %%
 from tensorflow.python.ops import inplace_ops
@@ -68,47 +63,6 @@ model_name = 'ted_hrlr_translate_mt_en_converter'
 tokenizers = tf.saved_model.load(model_name)
 tokenizers.en.get_vocab_size().numpy()
 MAX_TOKEN_LENGTH = 80
-#
-## %%
-#lengths = []
-#
-#for en_examples, mt_examples in train_examples.batch(1024):
-#    mt_tokens = tokenizers.mt.tokenize(mt_examples)
-#    lengths.append(mt_tokens.row_lengths())
-#
-#    en_tokens = tokenizers.en.tokenize(en_examples)
-#    lengths.append(en_tokens.row_lengths())
-#    print('.', end='', flush=True)
-#
-## %%
-#all_lengths = np.concatenate(lengths)
-#
-#plt.hist(all_lengths, np.linspace(0, 500, 101))
-#plt.ylim(plt.ylim())
-#max_length = max(all_lengths)
-#plt.plot([max_length, max_length], plt.ylim())
-#plt.title(f'Max tokens per example: {max_length}');
-#
-## %%
-##Keep at 80
-#
-#
-#def condition(x):
-#    return x < MAX_TOKEN_LENGTH
-#
-#print("Average tokens per example: ")
-#print(sum(all_lengths) / len(all_lengths))
-#
-#print("Number of elements smaller than len " + str(MAX_TOKEN_LENGTH))
-#satisfyCond = sum(condition(x) for x in all_lengths)
-#print(satisfyCond)
-#
-#totalLengths = len(all_lengths)
-#print("Total lengths: " + str(totalLengths))
-#
-#print("Coverage: (%)")
-#print(satisfyCond/totalLengths)
-
 # %%
 SRC_LANG = "mt"
 TGT_LANG = "en"
@@ -181,6 +135,20 @@ def tokenize_pairs(en, mt):
 BUFFER_SIZE = 20000
 
 
+num_samples = train_examples.cardinality().numpy()
+end_step = np.ceil(num_samples / BATCH_SIZE).astype(np.int32) * EPOCHS
+
+print(num_samples)
+print(end_step)
+
+prune_low_magnitude = tfmot.sparsity.keras.prune_low_magnitude
+# Define model for pruning.
+pruning_params = {
+    'pruning_schedule': tfmot.sparsity.keras.PolynomialDecay(initial_sparsity=0.10,
+                                                             final_sparsity=0.45,
+                                                             begin_step=0,
+                                                             end_step=end_step),
+}
 def make_batches(ds):
     
     
@@ -254,12 +222,11 @@ pos_encoding = tf.reshape(pos_encoding, (d, n))
 
 # Masking
 
+
 def create_padding_mask(x):
     mask = tf.cast(tf.math.equal(x, 0), tf.float32)
     # (batch_size, 1, 1, sequence length)
     return mask[:, tf.newaxis, tf.newaxis, :]
-
-
 
 
 def create_look_ahead_mask(x):
@@ -288,6 +255,7 @@ def scaled_dot_product_attention(query, key, value, mask):
 
     return output
 
+
 def print_out(q, k, v):
     temp_out, temp_attn = scaled_dot_product_attention(
         q, k, v, None)
@@ -295,6 +263,7 @@ def print_out(q, k, v):
     print(temp_attn)
     print('Output is:')
     print(temp_out)
+
 
 # %%
 
@@ -304,8 +273,6 @@ def point_wise_feed_forward_network(d_model, dff):
         tf.keras.layers.Dense(dff, activation='relu'),  # (batch_size, seq_len, dff)
         tf.keras.layers.Dense(d_model)  # (batch_size, seq_len, d_model)
     ])
-
-
 
 
 # %%
@@ -335,15 +302,15 @@ class PositionalEncoding(tf.keras.layers.Layer):
 
     def call(self, inputs):
         return inputs + self.pos_encoding[:, :tf.shape(inputs)[1], :]
-    
-    def get_config(self):
 
+    def get_config(self):
         config = super().get_config().copy()
         config.update({
             'pos_encoding': self.pos_encoding.numpy(),
         })
         return config
-    
+
+
 class MultiHeadAttention(tf.keras.layers.Layer):
 
     def __init__(self, d_model, num_heads, name="multi_head_attention"):
@@ -394,36 +361,40 @@ class MultiHeadAttention(tf.keras.layers.Layer):
         outputs = self.dense(concat_attention)
 
         return outputs
-    def get_config(self):
 
+    def get_config(self):
         config = super().get_config().copy()
         config.update({
             'num_heads': self.num_heads,
             'd_model': self.d_model,
         })
         return config
-    
+
+
 def encoder_layer(units, d_model, num_heads, dropout, name="encoder_layer"):
     inputs = tf.keras.Input(shape=(None, d_model), name="inputs")
     padding_mask = tf.keras.Input(shape=(1, 1, None), name="padding_mask")
 
     attention = MultiHeadAttention(
-      d_model, num_heads, name="attention")({
-          'query': inputs,
-          'key': inputs,
-          'value': inputs,
-          'mask': padding_mask
-      })
-    attention = tf.keras.layers.Dropout(rate=dropout)(attention)
-    attention = tf.keras.layers.LayerNormalization(epsilon=1e-6)(inputs + attention)
+        d_model, num_heads, name="attention")({
+        'query': inputs,
+        'key': inputs,
+        'value': inputs,
+        'mask': padding_mask
+    })
+    attention = prune_low_magnitude(tf.keras.layers.Dropout(rate=dropout), **pruning_params)(attention)
+    attention = prune_low_magnitude(tf.keras.layers.LayerNormalization(epsilon=1e-6), **pruning_params)(
+        inputs + attention)
 
-    outputs =  tf.keras.layers.Dense(units=units, activation='relu')(attention)
-    outputs = tf.keras.layers.Dense(units=d_model)(outputs)
-    outputs = tf.keras.layers.Dropout(rate=dropout)(outputs)
-    outputs = tf.keras.layers.LayerNormalization(epsilon=1e-6)(attention + outputs)
+    outputs = prune_low_magnitude(tf.keras.layers.Dense(units=units, activation='relu'), **pruning_params)(attention)
+    outputs = prune_low_magnitude(tf.keras.layers.Dense(units=d_model), **pruning_params)(outputs)
+    outputs = prune_low_magnitude(tf.keras.layers.Dropout(rate=dropout), **pruning_params)(outputs)
+    outputs = prune_low_magnitude(tf.keras.layers.LayerNormalization(epsilon=1e-6), **pruning_params)(
+        attention + outputs)
 
     return tf.keras.Model(
-      inputs=[inputs, padding_mask], outputs=outputs, name=name)
+        inputs=[inputs, padding_mask], outputs=outputs, name=name)
+
 
 def encoder(vocab_size,
             num_layers,
@@ -435,62 +406,64 @@ def encoder(vocab_size,
     inputs = tf.keras.Input(shape=(None,), name="inputs")
     padding_mask = tf.keras.Input(shape=(1, 1, None), name="padding_mask")
 
-    embeddings = tf.keras.layers.Embedding(vocab_size, d_model)(inputs)
+    embeddings = prune_low_magnitude(tf.keras.layers.Embedding(vocab_size, d_model), **pruning_params)(inputs)
     embeddings *= tf.math.sqrt(tf.cast(d_model, tf.float32))
     embeddings = PositionalEncoding(vocab_size, d_model)(embeddings)
 
-    outputs = tf.keras.layers.Dropout(rate=dropout)(embeddings)
+    outputs = prune_low_magnitude(tf.keras.layers.Dropout(rate=dropout), **pruning_params)(embeddings)
 
     for i in range(num_layers):
         outputs = encoder_layer(
-                units=units,
-                d_model=d_model,
-                num_heads=num_heads,
-                dropout=dropout,
-                name="encoder_layer_{}".format(i),
-            )([outputs, padding_mask])
+            units=units,
+            d_model=d_model,
+            num_heads=num_heads,
+            dropout=dropout,
+            name="encoder_layer_{}".format(i),
+        )([outputs, padding_mask])
 
     return tf.keras.Model(
-      inputs=[inputs, padding_mask], outputs=outputs, name=name)
+        inputs=[inputs, padding_mask], outputs=outputs, name=name)
+
 
 def decoder_layer(units, d_model, num_heads, dropout, name="decoder_layer"):
     inputs = tf.keras.Input(shape=(None, d_model), name="inputs")
     enc_outputs = tf.keras.Input(shape=(None, d_model), name="encoder_outputs")
     look_ahead_mask = tf.keras.Input(
-      shape=(1, None, None), name="look_ahead_mask")
+        shape=(1, None, None), name="look_ahead_mask")
     padding_mask = tf.keras.Input(shape=(1, 1, None), name='padding_mask')
 
     attention1 = MultiHeadAttention(
-      d_model, num_heads, name="attention_1")(inputs={
-          'query': inputs,
-          'key': inputs,
-          'value': inputs,
-          'mask': look_ahead_mask
-      })
-    attention1 = tf.keras.layers.LayerNormalization(
-      epsilon=1e-6)(attention1 + inputs)
+        d_model, num_heads, name="attention_1")(inputs={
+        'query': inputs,
+        'key': inputs,
+        'value': inputs,
+        'mask': look_ahead_mask
+    })
+    attention1 = prune_low_magnitude(tf.keras.layers.LayerNormalization(
+        epsilon=1e-6), **pruning_params)(attention1 + inputs)
 
     attention2 = MultiHeadAttention(
-      d_model, num_heads, name="attention_2")(inputs={
-          'query': attention1,
-          'key': enc_outputs,
-          'value': enc_outputs,
-          'mask': padding_mask
-      })
-    attention2 = tf.keras.layers.Dropout(rate=dropout)(attention2)
-    attention2 = tf.keras.layers.LayerNormalization(
-      epsilon=1e-6)(attention2 + attention1)
+        d_model, num_heads, name="attention_2")(inputs={
+        'query': attention1,
+        'key': enc_outputs,
+        'value': enc_outputs,
+        'mask': padding_mask
+    })
+    attention2 = prune_low_magnitude(tf.keras.layers.Dropout(rate=dropout), **pruning_params)(attention2)
+    attention2 = prune_low_magnitude(tf.keras.layers.LayerNormalization(
+        epsilon=1e-6), **pruning_params)(attention2 + attention1)
 
-    outputs = tf.keras.layers.Dense(units=units, activation='relu')(attention2)
-    outputs = tf.keras.layers.Dense(units=d_model)(outputs)
-    outputs = tf.keras.layers.Dropout(rate=dropout)(outputs)
-    outputs = tf.keras.layers.LayerNormalization(
-      epsilon=1e-6)(outputs + attention2)
+    outputs = prune_low_magnitude(tf.keras.layers.Dense(units=units, activation='relu'), **pruning_params)(attention2)
+    outputs = prune_low_magnitude(tf.keras.layers.Dense(units=d_model), **pruning_params)(outputs)
+    outputs = prune_low_magnitude(tf.keras.layers.Dropout(rate=dropout), **pruning_params)(outputs)
+    outputs = prune_low_magnitude(tf.keras.layers.LayerNormalization(
+        epsilon=1e-6), **pruning_params)(outputs + attention2)
 
     return tf.keras.Model(
-      inputs=[inputs, enc_outputs, look_ahead_mask, padding_mask],
-      outputs=outputs,
-      name=name)
+        inputs=[inputs, enc_outputs, look_ahead_mask, padding_mask],
+        outputs=outputs,
+        name=name)
+
 
 def decoder(vocab_size,
             num_layers,
@@ -502,14 +475,14 @@ def decoder(vocab_size,
     inputs = tf.keras.Input(shape=(None,), name='inputs')
     enc_outputs = tf.keras.Input(shape=(None, d_model), name='encoder_outputs')
     look_ahead_mask = tf.keras.Input(
-      shape=(1, None, None), name='look_ahead_mask')
+        shape=(1, None, None), name='look_ahead_mask')
     padding_mask = tf.keras.Input(shape=(1, 1, None), name='padding_mask')
 
-    embeddings = tf.keras.layers.Embedding(vocab_size, d_model)(inputs)
+    embeddings = prune_low_magnitude(tf.keras.layers.Embedding(vocab_size, d_model), **pruning_params)(inputs)
     embeddings *= tf.math.sqrt(tf.cast(d_model, tf.float32))
     embeddings = PositionalEncoding(vocab_size, d_model)(embeddings)
 
-    outputs = tf.keras.layers.Dropout(rate=dropout)(embeddings)
+    outputs = prune_low_magnitude(tf.keras.layers.Dropout(rate=dropout), **pruning_params)(embeddings)
 
     for i in range(num_layers):
         outputs = decoder_layer(
@@ -521,9 +494,10 @@ def decoder(vocab_size,
         )(inputs=[outputs, enc_outputs, look_ahead_mask, padding_mask])
 
     return tf.keras.Model(
-      inputs=[inputs, enc_outputs, look_ahead_mask, padding_mask],
-      outputs=outputs,
-      name=name)
+        inputs=[inputs, enc_outputs, look_ahead_mask, padding_mask],
+        outputs=outputs,
+        name=name)
+
 
 def transformer(input_vocab_size,
                 target_vocab_size,
@@ -536,38 +510,39 @@ def transformer(input_vocab_size,
     inputs = tf.keras.Input(shape=(None,), name="inputs")
     dec_inputs = tf.keras.Input(shape=(None,), name="dec_inputs")
 
-    enc_padding_mask =  tf.keras.layers.Lambda(
-      create_padding_mask, output_shape=(1, 1, None),
-      name='enc_padding_mask')(inputs)
+    enc_padding_mask = tf.keras.layers.Lambda(
+        create_padding_mask, output_shape=(1, 1, None),
+        name='enc_padding_mask')(inputs)
     # mask the future tokens for decoder inputs at the 1st attention block
     look_ahead_mask = tf.keras.layers.Lambda(
-      create_look_ahead_mask,
-      output_shape=(1, None, None),
-      name='look_ahead_mask')(dec_inputs)
+        create_look_ahead_mask,
+        output_shape=(1, None, None),
+        name='look_ahead_mask')(dec_inputs)
     # mask the encoder outputs for the 2nd attention block
     dec_padding_mask = tf.keras.layers.Lambda(
-      create_padding_mask, output_shape=(1, 1, None),
-      name='dec_padding_mask')(inputs)
+        create_padding_mask, output_shape=(1, 1, None),
+        name='dec_padding_mask')(inputs)
 
     enc_outputs = encoder(
-      vocab_size=input_vocab_size,
-      num_layers=num_layers,
-      units=units,
-      d_model=d_model,
-      num_heads=num_heads,
-      dropout=dropout,
+        vocab_size=input_vocab_size,
+        num_layers=num_layers,
+        units=units,
+        d_model=d_model,
+        num_heads=num_heads,
+        dropout=dropout,
     )(inputs=[inputs, enc_padding_mask])
 
     dec_outputs = decoder(
-      vocab_size=target_vocab_size,
-      num_layers=num_layers,
-      units=units,
-      d_model=d_model,
-      num_heads=num_heads,
-      dropout=dropout,
+        vocab_size=target_vocab_size,
+        num_layers=num_layers,
+        units=units,
+        d_model=d_model,
+        num_heads=num_heads,
+        dropout=dropout,
     )(inputs=[dec_inputs, enc_outputs, look_ahead_mask, dec_padding_mask])
 
-    outputs = tf.keras.layers.Dense(units=target_vocab_size, name="outputs")(dec_outputs)
+    outputs = prune_low_magnitude(tf.keras.layers.Dense(units=target_vocab_size, name="outputs"), **pruning_params)(
+        dec_outputs)
 
     return tf.keras.Model(inputs=[inputs, dec_inputs], outputs=outputs, name=name)
 
@@ -690,13 +665,17 @@ if latest:
 
 # %%
 
+callbacks = [
+    tfmot.sparsity.keras.UpdatePruningStep(), cp_callback
+]
+
 transformer_test.summary()
 
 # %%
 transformer_test.compile(optimizer=optimizer, loss=loss_function, metrics=[accuracy_function])
 
 # %%
-transformer_test.fit(train_batches, epochs=EPOCHS, validation_data=val_batches, callbacks = [cp_callback])
+transformer_test.fit(train_batches, epochs=EPOCHS, validation_data=val_batches, callbacks=callbacks)
 
 # %%
 
